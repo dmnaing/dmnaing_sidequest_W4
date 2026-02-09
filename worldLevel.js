@@ -24,7 +24,6 @@ Expected JSON shape for each level (from your provided file):
   "platforms": [ {x,y,w,h}, ... ]
 }
 */
-
 class WorldLevel {
   constructor(levelJson) {
     // A readable label for HUD.
@@ -41,21 +40,19 @@ class WorldLevel {
     this.jumpV = levelJson.jumpV ?? -11.0;
 
     // Player spawn data.
-    // Use optional chaining so levels can omit fields safely.
     this.start = {
       x: levelJson.start?.x ?? 80,
       y: levelJson.start?.y ?? 180,
       r: levelJson.start?.r ?? 26,
     };
 
+    // Door data (optional)
+    this.door = levelJson.door || null;
+
     // Convert raw platform objects into Platform instances.
     this.platforms = (levelJson.platforms || []).map((p) => new Platform(p));
   }
 
-  /*
-  If you want the canvas to fit the world, you can infer width/height by
-  finding the maximum x+w and y+h across all platforms.
-  */
   inferWidth(defaultW = 640) {
     if (!this.platforms.length) return defaultW;
     return max(this.platforms.map((p) => p.x + p.w));
@@ -66,14 +63,29 @@ class WorldLevel {
     return max(this.platforms.map((p) => p.y + p.h));
   }
 
-  /*
-  Draw only the world (background + platforms).
-  The player draws itself separately, after the world is drawn.
-  */
   drawWorld() {
     background(color(this.theme.bg));
+
+    // Platforms
     for (const p of this.platforms) {
       p.draw(color(this.theme.platform));
+    }
+
+    // Door
+    if (this.door) {
+      fill(120, 80, 40);
+      rect(this.door.x, this.door.y, this.door.w, this.door.h, 4);
+
+      noFill();
+      stroke(255, 200, 0);
+      rect(
+        this.door.x - 2,
+        this.door.y - 2,
+        this.door.w + 4,
+        this.door.h + 4,
+        6,
+      );
+      noStroke();
     }
   }
 }
