@@ -1,42 +1,54 @@
 ## Project Title
 
-GBDA302 Week 4 Example 5: Blob Platformer (JSON + Classes)
+GBDA302_Week 4_Side Quest 4: JSON-Driven Platformer
 
 ---
 
 ## Authors
 
-Karen Cochrane and David Han
+Min Htet Naing, dmnaing (21008098)
 
 ---
 
 ## Description
 
-This matches the structure of the original blob sketch from Week 2 but moves
-details into classes.
+This is a small platformer prototype built using JSON-driven level data and reusable classes. Platforms and the goal zone are generated from external level data using loops, allowing new levels to be added without modifying the core game logic. The player navigates platforms and reaches the goal to automatically advance to the next level.
+
+---
+
+## Setup and Interaction Instructions
+
+- Open the GitHub Pages link in Google Chrome.
+- **Move:** A / D or Left / Right Arrow keys
+- **Jump:** Space, W, or Up Arrow
+- **Goal:** Reach the green goal zone to load the next level
+- **Optional:** Press **N** to manually skip to the next level
 
 ---
 
 ## Learning Goals
 
-Learning Goals:
+a. Post-Playtest (3 changes)
 
-- - load JSON in preload()
-- create WorldLevel from JSON
-- create BlobPlayer
-- update + draw each frame
-- handle input events (jump, optional next level)
+1. Added a visible goal zone defined in JSON to clarify the win condition.
+2. Adjusted platform spacing to make jumps more readable and intentional.
+3. Implemented automatic level progression when the goal is reached.
+
+b. Post-Showcase (2 planned improvements)
+
+1. Add visual feedback when the player reaches the goal (animation or text).
+2. Introduce hazards or alternate platform types using JSON data.
 
 ---
 
 ## Assets
 
-N/A
+No external assets were used.
 
 ---
 
 ## GenAI
 
-The code was written by Dr. Karen Cochrane and David Han but they used GenAI to write the comments.
+I used AI to help developing the code and make adjustments for this side quest.
 
 ---

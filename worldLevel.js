@@ -48,6 +48,8 @@ class WorldLevel {
       r: levelJson.start?.r ?? 26,
     };
 
+    this.goal = levelJson.goal || null;
+
     // Convert raw platform objects into Platform instances.
     this.platforms = (levelJson.platforms || []).map((p) => new Platform(p));
   }
@@ -72,8 +74,14 @@ class WorldLevel {
   */
   drawWorld() {
     background(color(this.theme.bg));
+
     for (const p of this.platforms) {
       p.draw(color(this.theme.platform));
+    }
+
+    if (this.goal) {
+      fill("#6EDC5F");
+      rect(this.goal.x, this.goal.y, this.goal.w, this.goal.h);
     }
   }
 }
