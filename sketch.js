@@ -15,69 +15,51 @@ This matches the structure of the original blob sketch from Week 2 but moves
 details into classes.
 */
 
-// Raw JSON data
-let data;
+let data; // raw JSON data
 let levelIndex = 0;
 
-// Current level + player
-let world;
-let player;
+let world; // WorldLevel instance (current level)
+let player; // BlobPlayer instance
 
 function preload() {
-  // Load level data before setup
+  // Load the level data from disk before setup runs.
   data = loadJSON("levels.json");
 }
 
 function setup() {
-  // Create canvas (will be resized per level)
-  createCanvas(640, 360);
-
-  // Create player once
+  // Create the player once (it will be respawned per level).
   player = new BlobPlayer();
 
-  // Load first level
+  // Load the first level.
   loadLevel(0);
 
-  // Shared styling
+  // Simple shared style setup.
   noStroke();
   textFont("sans-serif");
   textSize(14);
 }
 
 function draw() {
-  // 1) Draw the world (background + platforms + goal)
+  // 1) Draw the world (background + platforms)
   world.drawWorld();
 
-  // 2) Update and draw the player
+  // 2) Update and draw the player on top of the world
   player.update(world.platforms);
   player.draw(world.theme.blob);
 
   // 3) HUD
   fill(0);
   text(world.name, 10, 18);
-  text("Move: A/D or ←/→  •  Jump: Space/W/↑", 10, 36);
-
-  // 4) Win condition: reach goal zone
-  if (world.goal) {
-    if (
-      player.pos.x > world.goal.x &&
-      player.pos.x < world.goal.x + world.goal.w &&
-      player.pos.y > world.goal.y &&
-      player.pos.y < world.goal.y + world.goal.h
-    ) {
-      const next = (levelIndex + 1) % data.levels.length;
-      loadLevel(next);
-    }
-  }
+  text("Move: A/D or ←/→ • Jump: Space/W/↑ • Next: N", 10, 36);
 }
 
 function keyPressed() {
-  // Jump controls
+  // Jump keys
   if (key === " " || key === "W" || key === "w" || keyCode === UP_ARROW) {
     player.jump();
   }
 
-  // Optional: manual level skip
+  // Optional: cycle levels with N (as with the earlier examples)
   if (key === "n" || key === "N") {
     const next = (levelIndex + 1) % data.levels.length;
     loadLevel(next);
@@ -86,21 +68,21 @@ function keyPressed() {
 
 /*
 Load a level by index:
-- Create WorldLevel from JSON
-- Resize canvas to fit level geometry
-- Respawn player using level settings
+- create a WorldLevel instance from JSON
+- resize canvas based on inferred geometry
+- spawn player using level start + physics
 */
 function loadLevel(i) {
   levelIndex = i;
 
-  // Create world from JSON
+  // Create the world object from the JSON level object.
   world = new WorldLevel(data.levels[levelIndex]);
 
-  // Resize canvas to fit platforms
+  // Fit canvas to world geometry (or defaults if needed).
   const W = world.inferWidth(640);
   const H = world.inferHeight(360);
   resizeCanvas(W, H);
 
-  // Respawn player
+  // Apply level settings + respawn.
   player.spawnFromLevel(world);
 }
