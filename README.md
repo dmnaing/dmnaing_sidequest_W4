@@ -4,7 +4,7 @@ GBDA302_Week 4_Side Quest 4: JSON-Driven Platformer
 
 ---
 
-## Authors
+## Author
 
 Min Htet Naing, dmnaing (21008098)
 
@@ -26,7 +26,7 @@ This is a small platformer prototype built using JSON-driven level data and reus
 
 ---
 
-## Learning Goals
+## Iteration Notes
 
 a. Post-Playtest (3 changes)
 
