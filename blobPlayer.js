@@ -171,27 +171,35 @@ class BlobPlayer {
   This is the same technique as the original drawBlob() function. 
   */
   draw(colourHex) {
+    // Squash & stretch based on ground contact
+    const squash = this.onGround ? 1.1 : 0.95;
+
+    push();
+    translate(this.x, this.y);
+    scale(1, squash);
+
     fill(color(colourHex));
     beginShape();
 
     for (let i = 0; i < this.points; i++) {
       const a = (i / this.points) * TAU;
 
-      // Noise input: circle coordinates + time.
+      // Noise input: circle coordinates + time
       const n = noise(
         cos(a) * this.wobbleFreq + 100,
         sin(a) * this.wobbleFreq + 100,
         this.t,
       );
 
-      // Map noise to a small radius offset.
+      // Radius wobble
       const rr = this.r + map(n, 0, 1, -this.wobble, this.wobble);
 
-      // Place the vertex around the center.
-      vertex(this.x + cos(a) * rr, this.y + sin(a) * rr);
+      // Draw relative to origin (0,0)
+      vertex(cos(a) * rr, sin(a) * rr);
     }
 
     endShape(CLOSE);
+    pop();
   }
 }
 

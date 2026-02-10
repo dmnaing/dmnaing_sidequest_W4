@@ -24,7 +24,16 @@ class Platform {
   }
 
   draw(fillColor) {
+    // Main platform body
     fill(fillColor);
-    rect(this.x, this.y, this.w, this.h);
+    rect(this.x, this.y, this.w, this.h, 6);
+
+    // Subtle top highlight to add depth
+    fill(255, 255, 255, 60);
+    rect(this.x, this.y, this.w, 4, 6);
+
+    // Subtle shadow under platform
+    fill(0, 0, 0, 40);
+    rect(this.x, this.y + this.h - 4, this.w, 4, 6);
   }
 }
